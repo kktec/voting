@@ -1,0 +1,43 @@
+buildscript {
+	ext {
+	}
+	repositories {
+		mavenLocal()
+		jcenter()
+		mavenCentral()
+	}
+	dependencies {
+	}
+}
+
+defaultTasks 'clean', 'check'
+
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+apply plugin: 'codenarc'
+
+repositories {
+	mavenLocal()
+	jcenter()
+	mavenCentral()
+}
+
+
+dependencies {
+	compile 'org.codehaus.groovy:groovy-all:2.4.9'
+
+
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5'
+}
+
+codenarc {
+    toolVersion = '0.27'
+    configFile = file('conf/codenarc.groovy')
+}
+
