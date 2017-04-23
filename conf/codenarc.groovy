@@ -30,7 +30,7 @@ ruleset {
 	ruleset('rulesets/junit.xml')
 	ruleset('rulesets/logging.xml')
 	ruleset('rulesets/naming.xml') {
-		MethodName { regex = /[a-z][\w\s'\(\)#:]*/ }
+		MethodName { regex = /[a-z|A-Z][\w\s'\(\)#:]*/ }
 		FactoryMethodName { regex = /(build.*|make.*)/ }
 	}	
 	ruleset('rulesets/security.xml') {

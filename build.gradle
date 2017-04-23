@@ -37,7 +37,7 @@ task wrapper(type: Wrapper) {
 }
 
 codenarc {
-    toolVersion = '0.27'
+    toolVersion = '0.27.0'
     configFile = file('conf/codenarc.groovy')
 }
 
