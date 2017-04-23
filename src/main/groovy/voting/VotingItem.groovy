@@ -1,6 +1,6 @@
 package voting
 
-class VotingItem<S extends Selection> {
+class VotingItem {
 
     String id
 
@@ -10,8 +10,9 @@ class VotingItem<S extends Selection> {
 
     Selection selection
 
+    Tallier tallier
+
     Map tally(votes) {
-        Tallier tallier = selection.tallier
-        tallier.tally(votes)
+       tallier.tally(votes)
     }
 }

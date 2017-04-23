@@ -1,6 +1,8 @@
 package voting
 
-class CandidateSelection {
+class CandidateSelection implements Selection {
 
-    List candidates
+    List selection
+
+    final Class type = List
 }

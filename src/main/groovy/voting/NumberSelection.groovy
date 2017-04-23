@@ -1,6 +1,8 @@
 package voting
 
-class NumberSelection extends Selection {
+class NumberSelection implements Selection {
 
     Double selection
+
+    final Class type = Double
 }

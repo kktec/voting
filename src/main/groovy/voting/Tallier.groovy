@@ -3,6 +3,6 @@ package voting
 @FunctionalInterface
 interface Tallier {
 
-    Map tally(Iterable votes)
+    Map tally(Iterable<Vote> votes)
 
 }

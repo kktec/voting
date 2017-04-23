@@ -1,10 +1,8 @@
 package voting
 
-class Selection {
+interface Selection {
 
-    // rules
+    Class getType()
 
-    Tallier tallier
-
-
+    def getSelection()
 }

@@ -3,8 +3,10 @@ package voting
 import spock.lang.Specification
 import spock.lang.Unroll
 
-@SuppressWarnings('UnnecessaryBooleanExpression')
+@SuppressWarnings(['UnnecessaryBooleanExpression', 'TrailingComma'])
 class AverageNumberVotingSpec extends Specification {
+
+    Selection selection = new NumberSelection()
 
     Tallier tallier = { Iterable votes ->
         List voting = votes.vote
@@ -16,7 +18,8 @@ class AverageNumberVotingSpec extends Specification {
     VotingItem item = new VotingItem(
             title: 'A Budget Item',
             description: 'Choose an amount',
-            selection: new NumberSelection(tallier: tallier),
+            selection: selection,
+            tallier: tallier
     )
 
     VotingService votingService = new VotingService()
