@@ -1,9 +1,10 @@
-package voting
+package voting.selection
 
 import groovy.transform.Immutable
 
+
 @Immutable
-class Voter {
+class Candidate {
 
     String id
 

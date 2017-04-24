@@ -1,4 +1,6 @@
-package voting
+package voting.selection
+
+import voting.Selection
 
 class NumberSelection implements Selection {
 

@@ -2,15 +2,15 @@ package voting
 
 import spock.lang.Specification
 import spock.lang.Unroll
+import voting.selection.NumberSelection
 
-@SuppressWarnings(['UnnecessaryBooleanExpression', 'TrailingComma'])
 class AverageNumberVotingSpec extends Specification {
 
     Selection selection = new NumberSelection()
 
     Tallier tallier = { Iterable<Vote> votes ->
-        List voting = votes.vote
-        Double total = voting.result.sum()
+        List voting = votes.vote.result
+        Double total = voting.sum()
         Double average = total != null ? total / votes.size() : null
         [result: average]
     }
@@ -34,7 +34,7 @@ class AverageNumberVotingSpec extends Specification {
         vote('d', dVote)
         vote('e', eVote)
 
-        then: 'the final talley result is the average of all the votes'
+        then: 'the talley result is the average of all the votes'
         votingService.tally(item).result == tally
 
         where:
