@@ -10,9 +10,6 @@ class VotingItem {
 
     Selection selection
 
+    @Delegate
     Tallier tallier
-
-    Map tally(votes) {
-       tallier.tally(votes)
-    }
 }

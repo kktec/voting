@@ -8,11 +8,11 @@ class AverageNumberVotingSpec extends Specification {
 
     Selection selection = new NumberSelection()
 
-    Tallier tallier = { Iterable votes ->
+    Tallier tallier = { Iterable<Vote> votes ->
         List voting = votes.vote
-        Double total = voting.value.sum()
+        Double total = voting.result.sum()
         Double average = total != null ? total / votes.size() : null
-        [value: average]
+        [result: average]
     }
 
     VotingItem item = new VotingItem(
@@ -34,8 +34,8 @@ class AverageNumberVotingSpec extends Specification {
         vote('d', dVote)
         vote('e', eVote)
 
-        then: 'the final talley is the average of all the votes'
-        votingService.tally(item).value == tally
+        then: 'the final talley result is the average of all the votes'
+        votingService.tally(item).result == tally
 
         where:
         scenario   | aVote | bVote | cVote | dVote | eVote || tally
@@ -52,7 +52,7 @@ class AverageNumberVotingSpec extends Specification {
 
     private vote(String voterId, Double vote) {
         if (vote != null) {
-            votingService.vote(item, new Vote(voter: new Voter(voterId), vote: [value: vote]))
+            votingService.vote(item, new Vote(voter: new Voter(voterId), vote: [result: vote]))
         }
     }
 }
