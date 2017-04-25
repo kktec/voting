@@ -26,12 +26,14 @@ class SingleVoteCandidateVotingSpec extends Specification {
     Selection selection = new CandidateSelection(selection: candidates)
 
     Tallier tallier = { Iterable<Vote> votes ->
-        Map results = candidates.collectEntries { Candidate candidate -> [(candidate): 0] }
-        List voting = votes.vote.result
+        Map results = candidates.collectEntries { Candidate candidate ->
+            [(candidate): 0]
+        }
+        List voting = votes.vote.results
         voting.each { Candidate candidate ->
             results[(candidate)] += 1
         }
-        [result: results]
+        [results: results]
     }
 
     VotingItem item = new VotingItem(
@@ -70,13 +72,13 @@ class SingleVoteCandidateVotingSpec extends Specification {
     }
 
     private tally(Candidate candidate) {
-        votingService.tally(item).result[candidate]
+        votingService.tally(item).results[candidate]
     }
 
 
     private vote(String voterId, Candidate vote) {
         if (vote != null) {
-            votingService.vote(item, new Vote(voter: new Voter(voterId), vote: [result: vote]))
+            votingService.vote(item, new Vote(voter: new Voter(voterId), vote: [results: vote]))
         }
     }
 }

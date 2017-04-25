@@ -1,9 +1,9 @@
 # voting
-An exploration of voting systems for JDK8 for the Groovy language.
+An exploration of voting systems for Java8 and the Groovy language.
 
 The build system is [Gradle](https://gradle.org/).
 
-Install JDK8, set the JAVA_HOME global environment to point to it, and put the **bin** folder on your PATH.
+Install JDK8, set the JAVA_HOME global environment variable to point to it, and put the **bin** folder on your PATH.
 
 You can then run the build/tests/codeQuality from your shell with:
 * **Unix:** ./gradlew build
