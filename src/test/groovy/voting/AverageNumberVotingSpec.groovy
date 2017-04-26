@@ -3,26 +3,19 @@ package voting
 import spock.lang.Specification
 import spock.lang.Unroll
 import voting.selection.NumberSelection
+import voting.tallier.AverageNumberTallier
 
-class AverageNumberVotingSpec extends Specification {
+class AverageNumberVotingSpec extends Specification implements VotingItemFixture {
 
-    Selection selection = new NumberSelection()
-
-    Tallier tallier = { Iterable<Vote> votes ->
-        List voting = votes.vote.results
-        Double total = voting.sum()
-        Double average = total != null ? total / votes.size() : null
-        [results: average]
+    @Override
+    VotingItem create() {
+        VotingItem item = new VotingItem(
+                title: 'A Budget Item',
+                description: 'Choose an amount',
+                selection: new NumberSelection(),
+                tallier: new AverageNumberTallier()
+        )
     }
-
-    VotingItem item = new VotingItem(
-            title: 'A Budget Item',
-            description: 'Choose an amount',
-            selection: selection,
-            tallier: tallier
-    )
-
-    VotingService votingService = new VotingService()
 
     @Unroll()
     def 'Average Number voting scenario #scenario Average is #tally'() {

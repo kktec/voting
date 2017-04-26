@@ -27,10 +27,11 @@ The build output can be found in the **build** folder:
 
 # Voting Systems
 The **highly readlble** test cases demonstrate some voting systems.
-##2017-04-24##
-Currently 2 voting systems can be found and shown to work in the Test classes:
-* **AverageNumberVotingSpec** - voters can vote on a number and the result is the average value of all the votes in a no. of scenarios
-* **SingleVoteCandidateVotingSpec** - voters can vote for a single candidate from a list of candidates in a no. of scenarios
+## 2017-04-25 ##
+Currently 3 voting systems can be found and shown to work in the Test classes:
+* **AverageNumberVotingSpec** - voters can vote on a number and the result is the average value of all the votes
+* **SingleVoteCandidateVotingSpec** - voters can cast 1 vote for a candidate from a list of candidates
+* **TwoVoteCandidateVotingSpec** - voters can cast 2 votes for a candidate(s) from a list of candidates
 
 
 

@@ -4,11 +4,11 @@ import spock.lang.Specification
 
 class VotingSpec extends Specification {
 
-    VotingItem itemA = new VotingItem(id: 'A', tallier: { [results: 1] })
+    VotingItem itemA = new VotingItem(id: 'A', tallier: { [results: 1] } )
 
-    VotingItem itemB = new VotingItem(id: 'B', tallier: { [results: 2] })
+    VotingItem itemB = new VotingItem(id: 'B', tallier: { [results: 'abc'] } )
 
-    VotingItem itemC = new VotingItem(id: 'C', tallier: { [results: 3] })
+    VotingItem itemC = new VotingItem(id: 'C', tallier: { [results: [x: 3, y: 4]] } )
 
     List items = [itemA, itemB, itemC]
 
@@ -16,12 +16,12 @@ class VotingSpec extends Specification {
 
     List votes = []
 
-    void 'can tally and aggregate the results for multiple VotingItems'() {
+    void 'can tally and aggregate the flattened results for multiple VotingItems'() {
         when:
         Map allResults = voting.tally([])
 
         then:
-        allResults == [A: 1, B: 2, C: 3]
+        allResults == [results: [A: 1, B: 'abc', C: [x: 3, y: 4]]]
     }
 }
 

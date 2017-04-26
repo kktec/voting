@@ -17,9 +17,9 @@ class Voting implements Tallier {
 
     @Override
     final Map tally(Iterable<Vote> votes) {
-        // TODO: produce the tallies for all the items
         Map results = items.collectEntries { item ->
             [(item.id): item.tally(votes).results]
         }
-    }
+        [results: results]
+     }
 }
