@@ -10,15 +10,11 @@ class VotingSpec extends Specification {
 
     VotingItem itemC = new VotingItem(id: 'C', tallier: { [results: [x: 3, y: 4]] } )
 
-    List items = [itemA, itemB, itemC]
-
-    Voting voting = new Voting(items: items)
-
-    List votes = []
+    Voting voting = new Voting(items: [itemA, itemB, itemC])
 
     void 'can tally and aggregate the flattened results for multiple VotingItems'() {
         when:
-        Map allResults = voting.tally([])
+        Map allResults = voting.tally()
 
         then:
         allResults == [results: [A: 1, B: 'abc', C: [x: 3, y: 4]]]

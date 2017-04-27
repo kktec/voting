@@ -1,6 +1,5 @@
-package voting.tallier
+package voting.tallying
 
-import voting.Tallier
 import voting.Vote
 
 /**
@@ -12,7 +11,7 @@ class AverageNumberTallier implements Tallier {
     Map tally(Iterable<Vote> votes) {
         List voting = votes.vote.results
         Double total = voting.sum()
-        Double average = total != null ? total / votes.size() : null
+        Double average = total != null ? total / votes.size() : 0
         [results: average]
     }
 }

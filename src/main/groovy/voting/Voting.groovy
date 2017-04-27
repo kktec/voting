@@ -1,10 +1,12 @@
 package voting
 
+import voting.tallying.Talliable
+
 /**
  * A group of VotingItems considered together.
  *
  */
-class Voting implements Tallier {
+class Voting implements Talliable {
 
     /** a unique id */
     String id
@@ -16,10 +18,12 @@ class Voting implements Tallier {
     List<VotingItem> items = []
 
     @Override
-    final Map tally(Iterable<Vote> votes) {
+    Map tally() { tallyItems() }
+
+    protected final Map tallyItems() {
         Map results = items.collectEntries { item ->
-            [(item.id): item.tally(votes).results]
+            [(item.id): item.tally().results]
         }
         [results: results]
-     }
+    }
 }

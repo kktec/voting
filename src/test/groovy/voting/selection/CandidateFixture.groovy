@@ -2,9 +2,12 @@ package voting.selection
 
 import spock.lang.Shared
 import voting.Selection
+import voting.Vote
+import voting.Voter
+import voting.VotingItemFixture
 
 
-trait CandidateFixture {
+trait CandidateFixture extends VotingItemFixture {
 
     @Shared
     Candidate z = new Candidate('Z')
@@ -22,4 +25,14 @@ trait CandidateFixture {
 
     Selection selection = new CandidateSelection(selection: candidates)
 
+    def tally(Candidate candidate) {
+        Map tally = item.tally().results ?: [:]
+        tally[candidate.id] ?: 0
+    }
+
+    void vote(String voterId, Candidate vote) {
+        if (vote != null) {
+            item.vote(new Vote(voter: new Voter(voterId), vote: [results: vote]))
+        }
+    }
 }

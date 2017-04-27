@@ -1,4 +1,6 @@
-package voting
+package voting.tallying
+
+import voting.Vote
 
 /**
  * Computes results for a VotingItem based on the Votes.

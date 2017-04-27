@@ -1,6 +1,5 @@
-package voting.tallier
+package voting.tallying
 
-import voting.Tallier
 import voting.Vote
 import voting.selection.Candidate
 
@@ -13,13 +12,17 @@ class CandidateVoteCountingTallier implements Tallier {
 
     @Override
     Map tally(Iterable<Vote> votes) {
-        Map results = candidates.collectEntries { Candidate candidate ->
-            [(candidate.id): 0]
-        }
+        Map tally = tallyWithNoVotes()
         List voting = votes.vote.results
         voting.each { Candidate candidate ->
-            results[(candidate.id)] += 1
+            tally[candidate.id] += 1
         }
-        [results: results]
+        [results: tally]
+    }
+
+    private Map tallyWithNoVotes() {
+        candidates.collectEntries { Candidate candidate ->
+            [(candidate.id): 0]
+        }
     }
 }

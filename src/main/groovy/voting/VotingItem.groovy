@@ -1,9 +1,15 @@
 package voting
 
+import voting.tallying.Talliable
+import voting.tallying.Tallier
+
 /**
- * A unique item that provides information that Voters can use to make a Selection (vote) and a means (Tallier) to determine the Voters preference(s).
+ * A unique item that provides information that Voters can use to make a Selection (vote)
+ * and a means (Tallier) to determine the Voters preference(s).
  */
-class VotingItem implements Tallier {
+class VotingItem implements Talliable {
+
+    private final Collection<Vote> votes = []
 
     /** a unique id */
     String id
@@ -14,9 +20,17 @@ class VotingItem implements Tallier {
 
     Selection selection
 
-    @Delegate
     Tallier tallier
 
+    Map currentTally
+
     @Override
-    String toString() { id.toString() }
+    Map tally() {
+        currentTally = tallier.tally(votes)
+    }
+
+    final void vote(Vote vote) { votes << vote }
+
+    @Override
+    String toString() { title.toString() }
 }

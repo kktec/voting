@@ -3,13 +3,14 @@ package voting
 import spock.lang.Specification
 import spock.lang.Unroll
 import voting.selection.NumberSelection
-import voting.tallier.AverageNumberTallier
+import voting.tallying.AverageNumberTallier
 
+@SuppressWarnings(['CyclomaticComplexity'])
 class AverageNumberVotingSpec extends Specification implements VotingItemFixture {
 
     @Override
     VotingItem create() {
-        VotingItem item = new VotingItem(
+        new VotingItem(
                 title: 'A Budget Item',
                 description: 'Choose an amount',
                 selection: new NumberSelection(),
@@ -18,7 +19,7 @@ class AverageNumberVotingSpec extends Specification implements VotingItemFixture
     }
 
     @Unroll()
-    def 'Average Number voting scenario #scenario Average is #tally'() {
+    void 'Average Number voting scenario #scenario Average is #tally'() {
 
         when: 'voting on a Number'
         vote('a', aVote)
@@ -28,11 +29,11 @@ class AverageNumberVotingSpec extends Specification implements VotingItemFixture
         vote('e', eVote)
 
         then: 'the talley result is the average of all the votes'
-        votingService.tally(item).results == tally
+        item.tally().results == tally
 
         where:
         scenario   | aVote | bVote | cVote | dVote | eVote || tally
-        'NONE'     | null  | null  | null  | null  | null  || null
+        'NONE'     | null  | null  | null  | null  | null  || 0
         'ONE'      | null  | null  | 24    | null  | null  || 24
         'ALL VETO' | 0     | 0     | 0     | 0     | 0     || 0
         'ONE VETO' | 30    | 0     | 30    | 30    | 30    || 24
@@ -45,7 +46,7 @@ class AverageNumberVotingSpec extends Specification implements VotingItemFixture
 
     private vote(String voterId, Double vote) {
         if (vote != null) {
-            votingService.vote(item, new Vote(voter: new Voter(voterId), vote: [results: vote]))
+            item.vote(new Vote(voter: new Voter(voterId), vote: [results: vote]))
         }
     }
 }

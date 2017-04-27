@@ -12,10 +12,10 @@ You can then run the build/tests/codeQuality and generate API documentation from
 
 This will:
 * Download and install the correct version of Gradle if it's not already installed
-* Download project dependencies that are not already available
+* Download and cache project dependencies that are not already available
 * Clean and Compile the source code
-* Gather code quality metrics using [Codenarc](http://codenarc.sourceforge.net/)
-* Run the tests implemented with [Spock Framework](http://spockframework.org/)
+* Gather code quality metrics, using [Codenarc](http://codenarc.sourceforge.net/)
+* Run alllthe tests, implemented with [Spock Framework](http://spockframework.org/)
 * Generate HTML code quality and test reports
 * Generate HTML API documentation
 * Build a **voting.jar** file
@@ -32,12 +32,21 @@ The build output can be found in the **build** folder:
 
 # Voting Systems
 The **highly readlble** test cases demonstrate some voting systems. Individual test specs can be run in any Java IDE.
-## 2017-04-25 ##
-Currently 3 voting systems can be found and shown to work in the Test classes:
+
+## 2017-04-27 ##
+Currently 4 voting systems can be found and shown to work in the Test classes:
 * **AverageNumberVotingSpec** - voters can vote on a number and the result is the average value of all the votes
 * **SingleVoteCandidateVotingSpec** - voters can cast 1 vote for a candidate from a list of candidates
 * **TwoVoteCandidateVotingSpec** - voters can cast 2 votes for a candidate(s) from a list of candidates
+* **CappedAverageNumberVotingSpec** - voters can vote on a number of items that are numbers and the result is the 
+    possibly adjusted (so the total of ll items <= the cap) average value of all the votes capped. essentially a simple budgeting system  
 
+# TODO
+* introduce **Tally** to replace use of **Map** for holding tally results
+* Clarify and possibly rework the **Selection** concept
+* Add more tests for **CappedAverageNumberVotingSpec**
+* Support more data-driven testing via spreadsheets
+* Build a demo webapp to allow users to test voting sytems by downloading a partially initialized spreadsheet, filling in the votes, and uploading the filled out spreadsheet and get back a report of the **Tally**
 
 
 

@@ -1,10 +1,12 @@
 package voting
 
+import spock.lang.Specification
 import spock.lang.Unroll
 import voting.selection.CandidateFixture
-import voting.tallier.CandidateVoteCountingTallier
+import voting.tallying.CandidateVoteCountingTallier
 
-class SingleVoteCandidateVotingSpec extends CandidateVotingSpec implements CandidateFixture {
+@SuppressWarnings(['CyclomaticComplexity'])
+class SingleVoteCandidateVotingSpec extends Specification implements CandidateFixture {
 
     @Override
     VotingItem create() {
@@ -18,12 +20,15 @@ class SingleVoteCandidateVotingSpec extends CandidateVotingSpec implements Candi
 
     @Unroll()
     def 'One vote per voter voting scenario #scenario Tally is Z:#tallyZ Y:#tallyY X:#tallyX W:#tallyW '() {
-        when: 'voting on a Candidate'
+        when: 'voting on a Candidate occurs'
         vote('a', aVote)
         vote('b', bVote)
         vote('c', cVote)
         vote('d', dVote)
         vote('e', eVote)
+
+        and: 'a tally is computed'
+        item.tally()
 
         then: 'the talley result is the number of votes per Candidate'
         tally(z) == tallyZ

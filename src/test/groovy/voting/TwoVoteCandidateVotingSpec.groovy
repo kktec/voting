@@ -1,14 +1,16 @@
 package voting
 
+import spock.lang.Specification
 import spock.lang.Unroll
 import voting.selection.CandidateFixture
-import voting.tallier.CandidateVoteCountingTallier
+import voting.tallying.CandidateVoteCountingTallier
 
-class TwoVoteCandidateVotingSpec extends CandidateVotingSpec implements CandidateFixture {
+@SuppressWarnings(['CyclomaticComplexity'])
+class TwoVoteCandidateVotingSpec extends Specification implements CandidateFixture {
 
     @Override
     VotingItem create() {
-        VotingItem item = new VotingItem(
+        new VotingItem(
                 title: 'An Election',
                 description: 'You have 2 votes to apply to Candidates. You may apply both Votes to a single Candidate',
                 selection: selection,
@@ -17,7 +19,7 @@ class TwoVoteCandidateVotingSpec extends CandidateVotingSpec implements Candidat
     }
 
     @Unroll()
-    def 'Two votes per voter voting scenario #scenario Tally is Z:#tallyZ Y:#tallyY X:#tallyX W:#tallyW '() {
+    void 'Two votes per voter voting scenario #scenario Tally is Z:#tallyZ Y:#tallyY X:#tallyX W:#tallyW '() {
         when: 'voting on a Candidate'
         vote('a', aVote1)
         vote('a', aVote2)
