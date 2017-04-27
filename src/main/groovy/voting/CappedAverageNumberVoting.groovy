@@ -1,13 +1,16 @@
 package voting
 
+import voting.tallying.MappingTally
+import voting.tallying.Tally
+
 
 class CappedAverageNumberVoting extends Voting {
 
     Double cap
 
     @Override
-    Map tally() {
-        Map tally = tallyItems().results
+    Tally tally() {
+        Tally tally = tallyItems()
         Double total = tally.values().sum() ?: 0
 
         Double adjustmentFactor
@@ -19,7 +22,8 @@ class CappedAverageNumberVoting extends Voting {
                 Double adjusted = itemTally * adjustmentFactor
                 [(itemId), adjusted]
             }
-            [results: adjustedTallies, total: adjustedTallies.values().sum() ?: 0, adjustmentFactor: adjustmentFactor]
+            Double adjustedTotal = adjustedTallies.values().sum() ?: 0
+            new MappingTally([tally: adjustedTallies, total: adjustedTotal, adjustmentFactor: adjustmentFactor])
         } else { tally }
     }
 }

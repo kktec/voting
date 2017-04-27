@@ -41,8 +41,10 @@ Currently 4 voting systems can be found and shown to work in the Test classes:
 * **CappedAverageNumberVotingSpec** - voters can vote on a number of items that are numbers and the result is the 
     possibly adjusted (so the total of ll items <= the cap) average value of all the votes capped. essentially a simple budgeting system  
 
+* Introduced **Tally** to replace use of **Map** for holding tally results
+
 # TODO
-* introduce **Tally** to replace use of **Map** for holding tally results
+* Rework Vote and Selection similar to Tally
 * Clarify and possibly rework the **Selection** concept
 * Add more tests for **CappedAverageNumberVotingSpec**
 * Support more data-driven testing via spreadsheets

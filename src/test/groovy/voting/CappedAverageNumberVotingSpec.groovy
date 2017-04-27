@@ -2,6 +2,8 @@ package voting
 
 import static org.hamcrest.Matchers.closeTo
 
+import voting.tallying.Tally
+
 import spock.lang.Specification
 import spock.lang.Unroll
 import voting.selection.NumberSelection
@@ -9,7 +11,7 @@ import voting.tallying.AverageNumberTallier
 
 @SuppressWarnings(['CyclomaticComplexity', 'LineLength'])
 class CappedAverageNumberVotingSpec extends Specification {
-    
+
     static final NONE
 
     VotingItem beer = createItem('beer')
@@ -41,12 +43,12 @@ class CappedAverageNumberVotingSpec extends Specification {
         vote(hats, 'c', cHats)
 
         and: 'the tally is the capped and redistributed average '
-        Map results = voting.tally()
+        Tally tally = voting.tally()
 
         then:
-        closeTo results.adjustmentFactor, adjustmentFactor
-        closeTo results[this.beer.id], beerTally
-        results.total <= voting.cap
+        closeTo tally.adjustmentFactor, adjustmentFactor
+        closeTo tally[this.beer.id]?.doubleValue(), beerTally
+        tally.total <= voting.cap
 
         where:
         scenario     | aBeer | bBeer | cBeer || beerTally | aSnacks | bSnacks | cSnacks || snacksTally | aHats | bHats | cHats || hatsTally || total | adjustmentFactor

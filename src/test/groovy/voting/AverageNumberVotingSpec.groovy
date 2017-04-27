@@ -29,7 +29,7 @@ class AverageNumberVotingSpec extends Specification implements VotingItemFixture
         vote('e', eVote)
 
         then: 'the talley result is the average of all the votes'
-        item.tally().results == tally
+        item.tally() == tally
 
         where:
         scenario   | aVote | bVote | cVote | dVote | eVote || tally
@@ -38,7 +38,7 @@ class AverageNumberVotingSpec extends Specification implements VotingItemFixture
         'ALL VETO' | 0     | 0     | 0     | 0     | 0     || 0
         'ONE VETO' | 30    | 0     | 30    | 30    | 30    || 24
         'V1'       | 20    | 100   | 0     | 20    | 10    || 30
-        'V2'       | 22    | 95    | 1     | 28    | 13    || 31.8
+        'V2'       | 22    | 95    | 1     | 28    | 13    || 31.8d
         'EXTREME'  | 0     | 100   | 0     | 0     | 0     || 20
         'ALL SAME' | 20    | 20    | 20    | 20    | 20    || 20
         'SOME'     | 22    | null  | 24    | null  | 26    || 24

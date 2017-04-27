@@ -7,6 +7,6 @@ interface Talliable {
      *
      * @return Map containing results under the key "results"
      */
-    Map tally()
+    Tally tally()
 
 }

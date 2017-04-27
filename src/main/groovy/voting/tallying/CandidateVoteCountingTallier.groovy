@@ -11,13 +11,13 @@ class CandidateVoteCountingTallier implements Tallier {
     List<Candidate> candidates = []
 
     @Override
-    Map tally(Iterable<Vote> votes) {
+    Tally tally(Iterable<Vote> votes) {
         Map tally = tallyWithNoVotes()
         List voting = votes.vote.results
         voting.each { Candidate candidate ->
             tally[candidate.id] += 1
         }
-        [results: tally]
+        new MappingTally([results: tally])
     }
 
     private Map tallyWithNoVotes() {

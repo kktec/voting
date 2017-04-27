@@ -2,6 +2,7 @@ package voting
 
 import voting.tallying.Talliable
 import voting.tallying.Tallier
+import voting.tallying.Tally
 
 /**
  * A unique item that provides information that Voters can use to make a Selection (vote)
@@ -22,10 +23,10 @@ class VotingItem implements Talliable {
 
     Tallier tallier
 
-    Map currentTally
+    Tally currentTally
 
     @Override
-    Map tally() {
+    Tally tally() {
         currentTally = tallier.tally(votes)
     }
 

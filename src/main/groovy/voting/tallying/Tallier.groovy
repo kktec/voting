@@ -16,6 +16,6 @@ interface Tallier {
      *
      * @return Map containing results under the key "results"
      */
-    Map tally(Iterable<Vote> votes)
+    Tally tally(Iterable<Vote> votes)
 
 }
