@@ -1,7 +1,7 @@
 package voting.tallying
 
 /**
- * Represents the Tally of some Voting
+ * Represents the Immutable Tally of some Voting.
  */
-trait Tally {
+interface Tally {
 }

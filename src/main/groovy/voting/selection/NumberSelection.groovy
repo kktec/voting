@@ -1,7 +1,5 @@
 package voting.selection
 
-import voting.Selection
-
 class NumberSelection implements Selection {
 
     Double selection

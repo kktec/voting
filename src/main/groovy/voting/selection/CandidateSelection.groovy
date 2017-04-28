@@ -1,7 +1,6 @@
 package voting.selection
 
 import groovy.transform.Canonical
-import voting.Selection
 
 @Canonical
 class CandidateSelection implements Selection {
@@ -13,6 +12,4 @@ class CandidateSelection implements Selection {
     Integer votesPerVoter = DEFAULT_VOTES_PER_VOTER
 
     List selection = []
-
-
 }

@@ -7,5 +7,4 @@ class MappingTally implements Tally, Map  {
 
     @Delegate
     Map tally
-
 }

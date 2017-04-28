@@ -1,5 +1,6 @@
 package voting
 
+import voting.selection.Selection
 import voting.tallying.Talliable
 import voting.tallying.Tallier
 import voting.tallying.Tally

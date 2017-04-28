@@ -1,4 +1,4 @@
-package voting
+package voting.selection
 
 /**
  * An abstract representation of choice(s) a Voter will make when voting on a VotingItem.
