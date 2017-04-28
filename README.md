@@ -33,7 +33,7 @@ The build output can be found in the **build** folder:
 # Voting Systems
 The **highly readlble** test cases demonstrate some voting systems. Individual test specs can be run in any Java IDE.
 
-## 2017-04-27 ##
+## 2017-04-28 ##
 Currently 4 voting systems can be found and shown to work in the Test classes:
 * **AverageNumberVotingSpec** - voters can vote on a number and the result is the average value of all the votes
 * **SingleVoteCandidateVotingSpec** - voters can cast 1 vote for a candidate from a list of candidates
@@ -42,6 +42,7 @@ Currently 4 voting systems can be found and shown to work in the Test classes:
     possibly adjusted (so the total of ll items <= the cap) average value of all the votes capped. essentially a simple budgeting system  
 
 * Introduced **Tally** to replace use of **Map** for holding tally results
+* Added support for JaCoCo code coverage
 
 # TODO
 * Rework Vote and Selection similar to Tally

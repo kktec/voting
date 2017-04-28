@@ -8,13 +8,14 @@ buildscript {
 	}
 }
 
-defaultTasks 'clean', 'check', 'jar', 'groovyDoc'
+defaultTasks 'check', 'jacocoTestReport', 'jacocoTestCoverageVerification', 'jar', 'groovyDoc'
 
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 apply plugin: 'codenarc'
+apply plugin: 'jacoco'
 
 repositories {
 	jcenter()
@@ -38,4 +39,25 @@ codenarc {
     toolVersion = '0.27.0'
     configFile = file('conf/codenarc.groovy')
 }
+
+jacoco {
+    toolVersion = '0.7.9'
+}
+
+jacocoTestReport {
+    reports {
+        html.destination "${buildDir}/reports/jacoco/html"
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.3 // TODO: higher
+            }
+        }
+    }
+}
+
 
