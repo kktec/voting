@@ -11,7 +11,7 @@ import voting.selection.NumberSelection
 import voting.tallying.AverageNumberTallier
 
 @SuppressWarnings(['CyclomaticComplexity', 'LineLength'])
-class CappedAverageNumberVotingSpec extends Specification {
+class CappedTotalAverageNumberVotingSpec extends Specification {
 
     static final NONE
 
@@ -21,18 +21,19 @@ class CappedAverageNumberVotingSpec extends Specification {
 
     VotingItem snacks = createItem('snacks')
 
-    CappedAverageNumberVoting voting = new CappedAverageNumberVoting(
+    CappedTotalAverageNumberVoting voting = new CappedTotalAverageNumberVoting(
             id: 'CANV',
             title: 'Party Budget Voting',
-            description: "We have money to spend. Let's have us some fun !",
+            description: "We have money to spend. Let's have us some fun !.",
             items: [beer, hats, snacks],
-            cap: 100
+            cap: 300,
+            numberOfVoters: 3
     )
 
     @Unroll
     void 'can tally the item budget with voting scenario #scenario total #total with multiplier #adjustmentFactor'() {
 
-        when: 'Voting on budget items'
+        when: 'Everybody gets 3 votes on each budget item'
         vote(beer, 'a', aBeer)
         vote(snacks, 'a', aSnacks)
         vote(hats, 'a', aHats)
@@ -43,24 +44,25 @@ class CappedAverageNumberVotingSpec extends Specification {
         vote(snacks, 'c', cSnacks)
         vote(hats, 'c', cHats)
 
-        and: 'the tally is the capped and redistributed average '
+        and: 'the tally is the capped and balanced and redistributed average '
         Tally votingTally = voting.tally()
 
         then:
+        votingTally.total < voting.cap || near(voting.cap, votingTally.total.doubleValue())
         near votingTally.adjustmentFactor?.doubleValue(), adjustmentFactor?.doubleValue()
         near tallyValue(this.beer.id, votingTally), beerTally.doubleValue()
         near tallyValue(this.snacks.id, votingTally), snacksTally.doubleValue()
         near tallyValue(this.hats.id, votingTally), hatsTally.doubleValue()
-        votingTally.total <= voting.cap
 
         where:
-        scenario     | aBeer | bBeer | cBeer | aSnacks | bSnacks | cSnacks | aHats | bHats | cHats || beerTally || snacksTally || hatsTally || total || adjustmentFactor
-        'NONE'       | NONE  | NONE  | NONE  | NONE    | NONE    | NONE    | NONE  | NONE  | NONE  || 0         || 0           || 0         || 0     || NONE
-        'ONE UNDER'  | NONE  | NONE  | NONE  | 50      | NONE    | NONE    | NONE  | NONE  | NONE  || 0         || 50          || 0         || 50    || NONE
-        'ONE OVER'   | 200   | NONE  | NONE  | NONE    | NONE    | NONE    | NONE  | NONE  | NONE  || 100       || 0           || 0         || 100   || 0.5
-        'ALL AT CAP' | 25    | 50    | 0     | 25      | 25      | 100     | 50    | 25    | 0     || 25        || 50          || 25        || 100   || NONE
-        'CAPPED'     | 25    | 50    | 75    | 50      | 100     | 75      | 50    | 75    | 100   || 25        || 37.5        || 37.5      || 100   || 0.5
-        'EXTREME'    | 100   | 0     | 0     | 100     | 0       | 0       | 100   | 0     | 0     || 33.333    || 33.333      || 33.333    || 100   || 0.0
+        scenario        | aBeer | bBeer | cBeer | aSnacks | bSnacks | cSnacks | aHats | bHats | cHats || beerTally || snacksTally || hatsTally || total || adjustmentFactor
+        'NONE'          | 0     | 0     | 0     | 0       | 0       | 0       | 0     | 0     | 0     || 0         || 0           || 0         || 0     || 1
+        'ONE'           | 0     | 0     | 0     | 1       | 0       | 0       | 0     | 0     | 0     || 0         || 300         || 0         || 300   || 300
+        'ALL DEFAULT'   | 1     | 1     | 1     | 1       | 1       | 1       | 1     | 1     | 1     || 100       || 100         || 100       || 300   || 33.333
+        'ALL DIFFERENT' | 2     | 1     | 0     | 2       | 2       | 2       | 1     | 1     | 1     || 75        || 150         || 75        || 300   || 25
+        'ALL VETO HATS' | 2     | 1     | 0     | 2       | 2       | 2       | 0     | 0     | 0     || 100       || 200         || 0         || 300   || 33.333
+        'A LITTLE HATS' | 2     | 1     | 0     | 2       | 2       | 2       | 0     | 0     | 1     || 90        || 180         || 30        || 300   || 30
+
     }
 
     private boolean near(Double v1, Double v2) {
