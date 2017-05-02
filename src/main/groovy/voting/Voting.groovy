@@ -22,7 +22,7 @@ class Voting implements Talliable {
     @Override
     Tally tally() { tallyItems() }
 
-    protected final Map tallyItems() {
+    protected final Tally tallyItems() {
         Map tally = items.collectEntries { item ->
             [(item.id): item.tally()]
         }

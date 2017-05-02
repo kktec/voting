@@ -7,4 +7,8 @@ class MappingTally implements Tally, Map  {
 
     @Delegate
     Map tally
+
+    Map tallyMap() {
+        tally?.tally ?: [:]
+    }
 }

@@ -1,6 +1,7 @@
 package voting
 
-import static org.hamcrest.Matchers.closeTo
+import voting.tallying.MappingTally
+import voting.tallying.NumberTally
 
 import voting.tallying.Tally
 
@@ -43,20 +44,34 @@ class CappedAverageNumberVotingSpec extends Specification {
         vote(hats, 'c', cHats)
 
         and: 'the tally is the capped and redistributed average '
-        Tally tally = voting.tally()
+        Tally votingTally = voting.tally()
 
         then:
-        closeTo tally.adjustmentFactor, adjustmentFactor
-        closeTo tally[this.beer.id]?.doubleValue(), beerTally
-        tally.total <= voting.cap
+        near votingTally.adjustmentFactor?.doubleValue(), adjustmentFactor?.doubleValue()
+        near tallyValue(this.beer.id, votingTally), beerTally.doubleValue()
+        near tallyValue(this.snacks.id, votingTally), snacksTally.doubleValue()
+        near tallyValue(this.hats.id, votingTally), hatsTally.doubleValue()
+        votingTally.total <= voting.cap
 
         where:
-        scenario     | aBeer | bBeer | cBeer || beerTally | aSnacks | bSnacks | cSnacks || snacksTally | aHats | bHats | cHats || hatsTally || total | adjustmentFactor
-        'NONE'       | NONE  | NONE  | NONE  || 0         | NONE    | NONE    | NONE    || 0           | NONE  | NONE  | NONE  || 0         || 0     | NONE
-        'ONE UNDER'  | NONE  | NONE  | NONE  || 0         | 50      | NONE    | NONE    || 50          | NONE  | NONE  | NONE  || 0         || 50    | NONE
-        'ALL AT CAP' | 25    | 50    | 0     || 25        | 25      | 25      | 100     || 50          | 50    | 25    | 0     || 25        || 100   | NONE
-        'ONE OVER'   | NONE  | NONE  | NONE  || 0         | NONE    | NONE    | NONE    || 0           | 200   | NONE  | NONE  || 200       || 100   | 0.5
-        'CAPPED'     | 25    | 50    | 75    || 50        | 25      | 25      | 100     || 50          | 50    | 25    | 75    || 150       || 100   | 2.0 / 3
+        scenario     | aBeer | bBeer | cBeer | aSnacks | bSnacks | cSnacks | aHats | bHats | cHats || beerTally || snacksTally || hatsTally || total || adjustmentFactor
+        'NONE'       | NONE  | NONE  | NONE  | NONE    | NONE    | NONE    | NONE  | NONE  | NONE  || 0         || 0           || 0         || 0     || NONE
+        'ONE UNDER'  | NONE  | NONE  | NONE  | 50      | NONE    | NONE    | NONE  | NONE  | NONE  || 0         || 50          || 0         || 50    || NONE
+        'ONE OVER'   | 200   | NONE  | NONE  | NONE    | NONE    | NONE    | NONE  | NONE  | NONE  || 100       || 0           || 0         || 100   || 0.5
+        'ALL AT CAP' | 25    | 50    | 0     | 25      | 25      | 100     | 50    | 25    | 0     || 25        || 50          || 25        || 100   || NONE
+        'CAPPED'     | 25    | 50    | 75    | 50      | 100     | 75      | 50    | 75    | 100   || 25        || 37.5        || 37.5      || 100   || 0.5
+        'EXTREME'    | 100   | 0     | 0     | 100     | 0       | 0       | 100   | 0     | 0     || 33.333    || 33.333      || 33.333    || 100   || 0.0
+    }
+
+    private boolean near(Double v1, Double v2) {
+        Double error = 0.001
+        Math.abs((v1 ?: 0d) - (v2 ?: 0d)) <= error
+    }
+
+    private Double tallyValue(String itemId, MappingTally votingTally) {
+        Map tallies = votingTally.tallyMap() ?: votingTally
+        NumberTally numberTally = tallies?.get(itemId) ?: new NumberTally(0d)
+        numberTally.doubleValue()
     }
 
 

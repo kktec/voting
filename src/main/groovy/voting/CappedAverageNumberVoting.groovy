@@ -1,6 +1,7 @@
 package voting
 
 import voting.tallying.MappingTally
+import voting.tallying.NumberTally
 import voting.tallying.Tally
 
 
@@ -10,20 +11,24 @@ class CappedAverageNumberVoting extends Voting {
 
     @Override
     Tally tally() {
-        Tally tally = tallyItems()
-        Double total = tally.values().sum() ?: 0
+        Tally tallyItems = tallyItems()
+        Double total = tallyItems.values().tally.sum() ?: 0d
 
         Double adjustmentFactor
         if (total > cap) {
             adjustmentFactor = cap / total
-            Map adjustedTallies = tally.collectEntries {
+            Map adjustedTallies = tallyItems.collectEntries {
                 String itemId = it.key
-                Double itemTally = it.value
-                Double adjusted = itemTally * adjustmentFactor
+                Double itemTally = it.value?.doubleValue() ?: 0d
+                Tally adjusted = new NumberTally(itemTally * adjustmentFactor)
                 [(itemId), adjusted]
             }
-            Double adjustedTotal = adjustedTallies.values().sum() ?: 0
-            new MappingTally([tally: adjustedTallies, total: adjustedTotal, adjustmentFactor: adjustmentFactor])
-        } else { tally }
+            Double adjustedTotal = adjustedTallies.values().tally.sum() ?: 0d
+            new MappingTally(
+                    tally: new MappingTally(adjustedTallies),
+                    total: new NumberTally(adjustedTotal),
+                    adjustmentFactor: new NumberTally(adjustmentFactor)
+            )
+        } else { tallyItems }
     }
 }
