@@ -45,11 +45,11 @@ Currently 4 voting systems can be found and shown to work in the Test classes:
 * Added support for JaCoCo code coverage
 
 # TODO
-* Rework Vote and Selection similar to Tally
+* Rework Vote and Selection similar to Tally ?????
 * Clarify and possibly rework the **Selection** concept
-* Add more tests for **CappedAverageNumberVotingSpec**
+* Add more tests for **CappedTotalAverageNumberVotingSpec**
 * Support more data-driven testing via spreadsheets
-* Build a demo webapp to allow users to test voting sytems by downloading a partially initialized spreadsheet, filling in the votes, and uploading the filled out spreadsheet and get back a report of the **Tally**
+* Build a demo webapp to allow users to test voting systems by downloading a partially initialized spreadsheet, filling in the votes, and uploading the filled out spreadsheet and get back a report of the **Tally**
 
 
 
