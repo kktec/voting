@@ -1,65 +1,70 @@
-buildscript {
-	ext {
-	}
-	repositories {
-		jcenter()
-	}
-	dependencies {
-	}
+allprojects {
+    buildscript {
+        ext {
+        }
+        repositories {
+            jcenter()
+        }
+        dependencies {
+        }
+    }
+
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'groovy'
+
+    defaultTasks 'check', 'jacocoTestReport', 'jacocoTestCoverageVerification', 'jar', 'groovyDoc'
+
+    repositories {
+        jcenter()
+    }
 }
 
-defaultTasks 'check', 'jacocoTestReport', 'jacocoTestCoverageVerification', 'jar', 'groovyDoc'
+subprojects { Project project ->
 
-apply plugin: 'groovy'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
-
-apply plugin: 'codenarc'
-apply plugin: 'jacoco'
-
-repositories {
-	jcenter()
-}
+    apply plugin: 'codenarc'
+    apply plugin: 'jacoco'
 
 
-dependencies {
-	compile 'org.codehaus.groovy:groovy-all:2.4.11'
+    dependencies {
+        compile 'org.codehaus.groovy:groovy-all:2.4.11'
 
-    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
-	testCompile 'cglib:cglib:3.2.5'
-    testCompile 'org.hamcrest:hamcrest-all:1.3'
-}
+        testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+        testCompile 'cglib:cglib:3.2.5'
+        testCompile 'org.hamcrest:hamcrest-all:1.3'
+    }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.5'
-}
-
-
-codenarc {
-    toolVersion = '0.27.0'
-    configFile = file('conf/codenarc.groovy')
-}
+    codenarc {
+        toolVersion = '0.27.0'
+        configFile = file('conf/codenarc.groovy')
+    }
 
 
 // Code Coverage
-jacoco {
-    toolVersion = '0.7.9'
-}
-
-jacocoTestReport {
-    reports {
-        html.destination "${buildDir}/reports/jacoco/html"
+    jacoco {
+        toolVersion = '0.7.9'
     }
-}
 
-jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            limit {
-                minimum = 0.3 // TODO: higher
+    jacocoTestReport {
+        reports {
+            html.destination "${buildDir}/reports/jacoco/html"
+        }
+    }
+
+    jacocoTestCoverageVerification {
+        violationRules {
+            rule {
+                limit {
+                    minimum = 0.3 // TODO: higher
+                }
             }
         }
     }
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5'
 }
 
 

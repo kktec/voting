@@ -6,7 +6,10 @@ The build system is [Gradle](https://gradle.org/).
 
 Install JDK8, set the JAVA_HOME global environment variable to point to it, and put the **bin** folder on your PATH.
 
-You can then run the build/tests/codeQuality and generate API documentation from your shell with:
+## 2017-05-13 ##
+**NOTE:** This project has been converted to a multi-module Gradle build, with currently 1 sub-project, **voting-core**.
+
+You can run the build/tests/codeQuality and generate API documentation from your shell with:
 * **Unix:** ./gradlew build
 * **Windows:** gradlew build
 
@@ -18,12 +21,12 @@ This will:
 * Run alllthe tests, implemented with [Spock Framework](http://spockframework.org/)
 * Generate HTML code quality and test reports
 * Generate HTML API documentation
-* Build a **voting.jar** file
+* Build a **voting-core.jar** file
 
 NOTE: The build will stop if there were failures at any step
 
-The build output can be found in the **build** folder:
-* **voting.jar** library file in **libs** folder
+The build output can be found in the **voting-core/build** folder:
+* **voting-core.jar** library file in **libs** folder
 * HTML code quality reports in **reports/codenarc** folder
 * HTML test reports in **reports/tests** folder
 * HTML test reports in **docs** folder
