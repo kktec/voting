@@ -12,8 +12,8 @@ class WinPlaceShowTallier implements Tallier {
         Map tally = tallyWithNoVotes()
         List voting = votes.vote.results
         voting.each { Map map ->
-            map.each { key, value ->
-                tally[key] = tally[key] += value ?: 0
+            map.each { String candidateId, Number winPlaceShow ->
+                tally[candidateId] = tally[candidateId] += winPlaceShow ?: 0
             }
         }
         new MappingTally([results: tally])
